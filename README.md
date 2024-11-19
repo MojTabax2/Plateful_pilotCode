@@ -87,8 +87,11 @@ pcm.!default {
 ``` shell
 source myenv/bin/activate
 ```
-- "cd" to the path of your code
-- Make sure the api-key is in the folder and your audio files are at the correct path (for our current rpi zero the path is Desktop/pyCode)
+- "cd" to the path of your code (for our current rpi zero the path is Desktop/pyCode)
+``` shell
+cd Desktop/pyCode
+```
+- Make sure the api-key is in the folder and your audio files are at the correct path 
 - run the code using:
 ``` shell
 supy pfRpi2.py
