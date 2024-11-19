@@ -41,9 +41,11 @@ source myenv/bin/activate
 sudo nano /boot/firmware/config.txt
 ```
 - Add the following lines to the buttom of the file:
+```
 dtparam=audio=off
 dtoverlay=i2s-mmap
 dtoverlay=hifiberry-dac
+```
 
 
 ### Sudo run configuration
@@ -57,7 +59,9 @@ which python3
 nano myenv/bin/activate
 ```
 - Add the following line to the buttom of the file with the address path you got from the "which" command. This commad is added to aid with runing sudo inside the env while using the libraries. The LED strip managing libraries need to run on sudo:
+```
 alias supy='sudo THE_ADDRESS_PATH'
+```
 
 
 ### Audo config
@@ -66,7 +70,7 @@ alias supy='sudo THE_ADDRESS_PATH'
 sudo nano /etc/asound.conf
 ```
 - Add these lines to the file:
-``` shell
+```
 pcm.!default {
     type asym
     playback.pcm {
