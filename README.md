@@ -1,7 +1,8 @@
 # Plateful_pilotCode
 Python code for interactive plate
 if the device is already set-up go to [How to run the code](https://github.com/MojTabax2/Plateful_pilotCode/blob/main/README.md#how-to-run-the-code)
-,
+/ln/
+
 
 ## Raspi setup:
 - Run a following commands n the terminal:
@@ -15,9 +16,8 @@ pip install --upgrade pip
 python3 -m venv myenv
 source myenv/bin/activate
 ```
-,
-,
-,
+
+/ln/
 
 ### Library installs
 - Then install the following libraries:
