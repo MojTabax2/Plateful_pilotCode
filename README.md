@@ -60,13 +60,13 @@ nano myenv/bin/activate
 alias supy='sudo THE_ADDRESS_PATH'
 
 
-### Audo confg
+### Audo config
 - Run:
 ``` shell
 sudo nano /etc/asound.conf
 ```
 - Add these lines to the file:
-
+``` shell
 pcm.!default {
     type asym
     playback.pcm {
@@ -74,7 +74,7 @@ pcm.!default {
         slave.pcm "hw:1,0"
     }
 }
-
+```
 
 
 ### How to run the code
