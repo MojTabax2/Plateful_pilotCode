@@ -2,7 +2,7 @@
 Python code for interactive plate
 
 ## Raspi setup:
--Run a followg commands n the terminal:
+- Run a following commands n the terminal:
 ``` shell
 sudo apt update
 sudo apt install python3-pip
@@ -13,6 +13,7 @@ pip install --upgrade pip
 python3 -m venv myenv
 source myenv/bin/activate
 ```
+
 
 ### Library installs
 - Then install the following libraries:
@@ -33,6 +34,7 @@ pip install pydub
 source myenv/bin/activate
 ```
 
+
 ### Audio configuration
 - Then run the following command
 ``` shell
@@ -42,6 +44,7 @@ sudo nano /boot/firmware/config.txt
 dtparam=audio=off
 dtoverlay=i2s-mmap
 dtoverlay=hifiberry-dac
+
 
 ### Sudo run configuration
 - Then run:
@@ -55,6 +58,7 @@ nano myenv/bin/activate
 ```
 - Add the following line to the buttom of the file with the address path you got from the "which" command. This commad is added to aid with runing sudo inside the env while using the libraries. The LED strip managing libraries need to run on sudo:
 alias supy='sudo THE_ADDRESS_PATH'
+
 
 ### How to run the code
 - Now do another reboot and then activate the env again:
