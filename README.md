@@ -79,15 +79,16 @@ pcm.!default {
     }
 }
 ```
+- Now do another reboot
 
 
-### How to run the code
-- Now do another reboot and then activate the env again:
+## How to run the code
+- Activate the env:
 ``` shell
 source myenv/bin/activate
 ```
-- Now "cd" to the path of your code
-- Make sure the api-key is in the folder and your audio files are at the correct path
+- "cd" to the path of your code
+- Make sure the api-key is in the folder and your audio files are at the correct path (for our current rpi zero the path is Desktop/pyCode)
 - run the code using:
 ``` shell
 supy pfRpi2.py
