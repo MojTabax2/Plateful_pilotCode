@@ -1,7 +1,7 @@
 # Plateful_pilotCode
 Python code for interactive plate
 if the device is already set-up go to [How to run the code](https://github.com/MojTabax2/Plateful_pilotCode/blob/main/README.md#how-to-run-the-code)
-/ln/
+
 
 
 ## Raspi setup:
@@ -17,7 +17,7 @@ python3 -m venv myenv
 source myenv/bin/activate
 ```
 
-/ln/
+
 
 ### Library installs
 - Then install the following libraries:
@@ -37,9 +37,7 @@ pip install pydub
 ``` shell
 source myenv/bin/activate
 ```
-,
-,
-,
+
 
 ### Audio configuration
 - Then run the following command
@@ -52,9 +50,8 @@ dtparam=audio=off
 dtoverlay=i2s-mmap
 dtoverlay=hifiberry-dac
 ```
-,
-,
-,
+
+
 
 ### Sudo run configuration
 - Then run:
@@ -70,9 +67,8 @@ nano myenv/bin/activate
 ```
 alias supy='sudo THE_ADDRESS_PATH'
 ```
-,
-,
-,
+
+
 
 ### Audo config
 - Run:
@@ -91,9 +87,8 @@ pcm.!default {
 ```
 - Now do another reboot
 
-,
-,
-,
+
+
 
 ## How to run the code
 - Activate the env:
