@@ -60,6 +60,23 @@ nano myenv/bin/activate
 alias supy='sudo THE_ADDRESS_PATH'
 
 
+### Audo confg
+- Run:
+``` shell
+sudo nano /etc/asound.conf
+```
+- Add these lines to the file:
+
+pcm.!default {
+    type asym
+    playback.pcm {
+        type plug
+        slave.pcm "hw:1,0"
+    }
+}
+
+
+
 ### How to run the code
 - Now do another reboot and then activate the env again:
 ``` shell
