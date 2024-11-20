@@ -46,7 +46,8 @@ sudo nano /boot/firmware/config.txt
 ```
 - Add the following lines to the buttom of the file:
 ```
-dtparam=audio=off
+dtparam=audio=off #it is ON by default just turn it off
+dtparam=i2s=on 
 dtoverlay=i2s-mmap
 dtoverlay=hifiberry-dac
 ```
