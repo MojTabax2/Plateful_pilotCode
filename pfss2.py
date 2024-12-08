@@ -1,32 +1,72 @@
-from rpi_ws281x import PixelStrip, Color
+from rpi_ws281x import PixelStrip, Color, ws
 import RPi.GPIO as GPIO
 import time
 import sys
+import pickle
+import os
+
+# Define the file path for storing the state
+STATE_FILE = "/home/pft2/Desktop/pyCode/pcState.pkl"
+
+# Initialize the state if it doesn't already exist
+def initialize_state():
+    if not os.path.exists(STATE_FILE):
+        default_state = [Color(0, 0, 0)] * lc_pc  # Default color is off
+        save_state(default_state)
+    return load_state()
+
+# Save state to a file
+def save_state(state):
+    with open(STATE_FILE, "wb") as f:
+        pickle.dump(state, f)
+
+# Load state from a file
+def load_state():
+    with open(STATE_FILE, "rb") as f:
+        return pickle.load(f)
 
 
-
-LED_PIN_P = 10 #protein section light
-LED_PIN_C = 21 #carb section light
-LED_PIN_V = 12 #veggie secton light
-lc_p = 24  # Number of LEDs in strip protin secton
-lc_c = 12  # Number of LEDs in strip carb section
+LED_PIN_PC = 12 #protein section light
+LED_PIN_V = 10 #veggie secton light
+lc_pc = 16  # Number of LEDs in strip protin secton
 lc_v = 12  # Number of LEDs in strip veggie section
 # Create PixelStrip objects for each LED strip
-stripP = PixelStrip(lc_p, LED_PIN_P, 800000, 10, False, 100, 0)
-stripC = PixelStrip(lc_c, LED_PIN_C, 800000, 10, False, 100, 0)
-stripV = PixelStrip(lc_v, LED_PIN_V, 800000, 10, False, 100, 0)
+stripP = PixelStrip(lc_pc, LED_PIN_PC, 800000, 10, False, 20, 0,  ws.SK6812_STRIP_RGBW)
+stripC = PixelStrip(lc_pc, LED_PIN_PC, 800000, 10, False, 20, 0,  ws.SK6812_STRIP_RGBW)
+stripV = PixelStrip(lc_v, LED_PIN_V, 800000, 10, False, 20, 0,  ws.SK6812_STRIP_RGBW)
 # Initialize all strips
 stripP.begin()
 stripC.begin()
 stripV.begin()
 
+pcState = initialize_state()
 
 # Define helper function to set colors on a strip
 def set_color(strip, color):
-	for i in range(strip.numPixels()):
-		strip.setPixelColor(i, color)
-	strip.show()
+	pcState = load_state()
 
+	if strip == stripP:
+		for i in range(0,8):
+			pcState[i]=color
+		for j, col in enumerate(pcState):
+			strip.setPixelColor(j, col)
+		print(pcState)
+		strip.show()
+
+	elif strip == stripC:
+		for i in range(8,16):
+			pcState[i]=color
+		for j, col in enumerate(pcState):
+			stripP.setPixelColor(j, col)
+		print(pcState)
+		stripP.show()
+
+	elif strip == stripV:
+		for i in range(strip.numPixels()):
+			strip.setPixelColor(i, color)
+		strip.show()
+		
+	save_state(pcState)
 
 # Turn on lights for a specific section
 def light_up(section):
