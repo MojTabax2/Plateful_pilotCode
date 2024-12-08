@@ -33,10 +33,10 @@ pygame.mixer.init()
 # File paths for audio
 audio_files = {
 	'greeting': "/home/pft2/Desktop/pyCode/audio.mp3",
-	'vegetable': ["/home/pft2/Desktop/pyCode/audio2.mp3", "/home/pft2/Desktop/pyCode/audio3.mp3", "/home/pft2/Desktop/pyCode/audio4.mp3"],
-	'protein': ["/home/pft2/Desktop/pyCode/audio5.mp3", "/home/pft2/Desktop/pyCode/audio6.mp3", "/home/pft2/Desktop/pyCode/audio7.mp3"],
-	'carb': ["/home/pft2/Desktop/pyCode/audio8.mp3", "/home/pft2/Desktop/pyCode/audio9.mp3", "/home/pft2/Desktop/pyCode/audio10.mp3"],
-	'warning': "/home/pft2/Desktop/pyCode/audio11.mp3"
+	'vegetable': ["/home/pft2/Desktop/pyCode/V1.mp3", "/home/pft2/Desktop/pyCode/V2.mp3", "/home/pft2/Desktop/pyCode/VE.mp3"],
+	'protein': ["/home/pft2/Desktop/pyCode/P1.mp3", "/home/pft2/Desktop/pyCode/P2.mp3", "/home/pft2/Desktop/pyCode/P3.mp3", "/home/pft2/Desktop/pyCode/PE.mp3"],
+	'carb': ["/home/pft2/Desktop/pyCode/C1.mp3", "/home/pft2/Desktop/pyCode/C2.mp3", "/home/pft2/Desktop/pyCode/C3.mp3"],
+	'Coin': "/home/pft2/Desktop/pyCode/C.mp3"
 }
 
 
@@ -52,7 +52,7 @@ def play_audio(file_path):
 
 # Calibration function
 def calibrate(channel):
-	return sum(channel.value for _ in range(10)) / 10  # Average over 10 readings
+	return sum(channel.value for _ in range(50)) / 50  # Average over 10 readings
 
 
 
@@ -79,7 +79,7 @@ def tlr(section, method):
 def initiate_section(section):
 	tlr(section, 'light_up')
 	if section == 'Carbs':
-		#play_audio(random.choice(audio_files[section]))
+		play_audio(random.choice(audio_files[section]))
 		print("carb audio played")
 
 	print(f"{section} section activated.")
@@ -109,7 +109,7 @@ carbs_activation_time = start_time + 360  # 6 minutes
 try:
 	# Initial greeting audio
 	play_audio(audio_files['greeting'])
-
+	#calibrated_values = [calibrate(ch) for ch in fsr_channels]
 
 
 	while True:
@@ -131,7 +131,7 @@ try:
 			data_points_C.append(fsr_values[2])
 			last_db_saved = current_time
 		
-		if current_time - last_db_update >= 20:
+		if current_time - last_db_update >= 15:
 			ref.set({'Protein': data_points_P, 'Vegetables': data_points_V, 'Carbs': data_points_C})
 			last_db_update = current_time
 
@@ -143,16 +143,15 @@ try:
 			section_states['Vegetables'] = True
 			section_new['Vegetables'] = True
 
-		# # waiting for the light board
-		# # if not section_states['Protein'] and current_time >= protein_activation_time and current_time <= start_time + 240:
-		# # 	initiate_section('Protein')
-		# # 	section_states['Protein'] = True
-		# # 	section_new['Protein'] = True
+		if not section_states['Protein'] and current_time >= protein_activation_time and current_time <= start_time + 240:
+			initiate_section('Protein')
+			section_states['Protein'] = True
+			section_new['Protein'] = True
 
-		# # if not section_states['Carbs'] and current_time >= carbs_activation_time and current_time <= start_time + 420:
-		# # 	initiate_section('Carbs')
-		# # 	section_states['Carbs'] = True
-		# # 	section_new['Carbs'] = True
+		if not section_states['Carbs'] and current_time >= carbs_activation_time and current_time <= start_time + 420:
+			initiate_section('Carbs')
+			section_states['Carbs'] = True
+			section_new['Carbs'] = True
 
 
 
@@ -161,54 +160,63 @@ try:
 			if fsr_values[1]/100 == data_points_V[-1]/100:  # Vegetables section not used
 				tlr('Vegetables', 'light_pulse')
 				if int(fsr_values[0]/100) != 0 and fsr_values[0]/100 < data_points_P[-1]/100:
-					#play_audio(random.choice(audio_files['Protein']))
+					play_audio(audio_files['vegetable'[2]])
 					print("protein instead of v")
 				elif int(fsr_values[2]/100) != 0 and fsr_values[2]/100 < data_points_C[-1]/100:
-					#tlr('carbs','light_B')
-					#play_audio(random.choice(audio_files['warning']))
-					print("carbs nstead of V")
+					tlr('carbs','light_B')
+					play_audio(audio_files['vegetable'[2]])
+					print("carbs instead of V")
 
 			elif fsr_values[1]/100 < data_points_V[-1]/100:			
-				#play_audio(random.choice(audio_files['Vegetables']))
+				play_audio(random.choice(audio_files['vegetable']))
+				play_audio(audio_files['Coin'])
 				print("1st time veggie")
 				section_new['Vegetables'] = False
 
-		# waiting for the light board
-		# if section_states['Protein'] and section_new['Protein'] and not section_states['Carbs'] and int(fsr_values[0]/100) != 0:
-		# 	if fsr_values[0]/100 == data_points_P[-1]/100:  # protein section not used
-		# 		tlr('Protein', 'light_pulse')
-		# 		if int(fsr_values[2]/100) != 0 and fsr_values[2]/100 < data_points_C[-1]/100:
-		# 			#play_audio(random.choice(audio_files['Carbs']))
-		# 			print("carbs nstead of p")
+		
+		if section_states['Protein'] and section_new['Protein'] and not section_states['Carbs'] and int(fsr_values[0]/100) != 0:
+			if fsr_values[0]/100 == data_points_P[-1]/100:  # protein section not used
+				tlr('Protein', 'light_pulse')
+				if int(fsr_values[2]/100) != 0 and fsr_values[2]/100 < data_points_C[-1]/100:
+					play_audio(audio_files['protein'[3]])
+					print("carbs instead of p")
 					
-		# 	elif fsr_values[0]/100 < data_points_P[-1]/100:				
-		# 		#play_audio(random.choice(audio_files['Protein']))
-		# 		print("first bite p")
-		# 		section_new['Protein'] = False
+			elif fsr_values[0]/100 < data_points_P[-1]/100:				
+				play_audio(random.choice(audio_files['protein']))
+				play_audio(audio_files['Coin'])
+				print("first bite p")
+				section_new['Protein'] = False
 
 
 
 		#activity
-		if elapsed_time - last_checked > 180:
+		if elapsed_time - last_checked > 120:
 			last_checked = elapsed_time
 			if fsr_values[0]/100 > (sum(data_points_P) / len(data_points_P))*0.9:
-				#play_audio(random.choice(audio_files['Protein']))
+				play_audio(audio_files['protein'[3]])
 				print("protein untouched")
+			else:
+				play_audio(random.choice(audio_files['protein']))
+				play_audio(audio_files['Coin'])
+			
 			if fsr_values[1]/100 > (sum(data_points_V) / len(data_points_V))*0.9:
-				#play_audio(random.choice(audio_files['Vegetables']))
+				play_audio(audio_files['vegetable'[2]])
 				print("veggie untouched")
+			else:
+				play_audio(random.choice(audio_files['vegetable']))
+				play_audio(audio_files['Coin'])
+		
 
 
 
 		# light off logic
 		if elapsed_time > 300:
-			print("here")
-			#if fsr_values[0]/100 < (data_points_P[-1]/100)*0.4:  # Turn off light when FSR drops below 40%
-				#tlr('Protein', 'light_off')
+			if fsr_values[0]/100 < (data_points_P[-1]/100)*0.4:  # Turn off light when FSR drops below 40%
+				tlr('Protein', 'light_off')
 			if fsr_values[1]/100 < (data_points_V[-1]/100)*0.4:  # Turn off light when FSR drops below 40%
 				tlr('Vegetables', 'light_off')
-			#if fsr_values[2]/100 < (data_points_C[-1]/100)*0.4:  # Turn off light when FSR drops below 40%
-				#tlr('Carbs', 'light_off')
+			if fsr_values[2]/100 < (data_points_C[-1]/100)*0.4:  # Turn off light when FSR drops below 40%
+				tlr('Carbs', 'light_off')
 
 
 
@@ -218,8 +226,8 @@ except KeyboardInterrupt:
 	print("Script interrupted. Cleaning up GPIO...")
 
 finally:
-	#tlr('Protein', 'light_off')
+	tlr('Protein', 'light_off')
 	tlr('Vegetables', 'light_off')
-	#tlr('Carbs', 'light_off')
+	tlr('Carbs', 'light_off')
 	GPIO.cleanup()
 	pygame.mixer.quit()
