@@ -1,1 +1,1 @@
-You should put a json api key file in this folder
+Retrieve the API key from your DB and place in this folder
