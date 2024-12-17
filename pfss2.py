@@ -10,8 +10,9 @@ STATE_FILE = "/home/pft2/Desktop/pyCode/pcState.pkl"
 
 # Initialize the state if it doesn't already exist
 def initialize_state():
-    if not os.path.exists(STATE_FILE):
-        default_state = [Color(0, 0, 0)] * lc_pc  # Default color is off
+    if not os.path.exists(STATE_FILE) or os.path.getsize(STATE_FILE) == 0:
+        # If file does not exist or is empty, create a default state
+        default_state = [Color(0, 0, 0)] * lc_pc  # Default to all LEDs off
         save_state(default_state)
     return load_state()
 
@@ -22,8 +23,14 @@ def save_state(state):
 
 # Load state from a file
 def load_state():
-    with open(STATE_FILE, "rb") as f:
-        return pickle.load(f)
+    try:
+        with open(STATE_FILE, "rb") as f:
+            return pickle.load(f)
+    except (EOFError, pickle.UnpicklingError):
+        # If the file is empty or corrupted, reset to default state
+        default_state = [Color(0, 0, 0)] * lc_pc
+        save_state(default_state)
+        return default_state
 
 
 LED_PIN_PC = 12 #protein section light
@@ -50,7 +57,7 @@ def set_color(strip, color):
 			pcState[i]=color
 		for j, col in enumerate(pcState):
 			strip.setPixelColor(j, col)
-		print(pcState)
+		#print(pcState)
 		strip.show()
 
 	elif strip == stripC:
@@ -58,7 +65,7 @@ def set_color(strip, color):
 			pcState[i]=color
 		for j, col in enumerate(pcState):
 			stripP.setPixelColor(j, col)
-		print(pcState)
+		#print(pcState)
 		stripP.show()
 
 	elif strip == stripV:
@@ -95,54 +102,36 @@ def end():
 
 def light_pulse(section):
 	# pulse the light strip for this section
-	end_time = time.time() + 5
-	while time.time() < end_time:
-		# Gradually increase brightness
-		if section == 'Protein':
-			for brightness in range(0, 256, 10):  # Adjust step for smoother transition
-				stripP.setBrightness(brightness)
-				set_color(stripP, Color(255, 0, 255))
-				time.sleep(0.05)
+	if section == 'Protein':
+		for i in range(10):
+			set_color(stripP, Color(0, 0, 0))
+			time.sleep(0.5)
+			set_color(stripP, Color(255, 0, 255))
+			time.sleep(0.5)
 
-			# Gradually decrease brightness
-			for brightness in range(255, -1, -10):
-				stripP.setBrightness(brightness)
-				set_color(stripP, Color(255, 0, 255))
-				time.sleep(0.05)
+	if section == 'Vegetables':
+		for i in range(10): 
+			set_color(stripV, Color(0, 0, 0))
+			time.sleep(0.5)
+			set_color(stripV, Color(0, 255, 255))
+			time.sleep(0.5)
 
-		if section == 'Vegetables':
-			for brightness in range(0, 256, 10):  # Adjust step for smoother transition
-				stripV.setBrightness(brightness)
-				set_color(stripV, Color(0, 255, 255))
-				time.sleep(0.05)
+	if section == 'Carbs':
+		for i in range(10): 
+			set_color(stripC, Color(0, 0, 0))
+			time.sleep(0.5)
+			set_color(stripC, Color(255, 255, 0))
+			time.sleep(0.5)
 
-			# Gradually decrease brightness
-			for brightness in range(255, -1, -10):
-				stripV.setBrightness(brightness)
-				set_color(stripV, Color(0, 255, 255))
-				time.sleep(0.05)
-
-		if section == 'Carbs':
-			for brightness in range(0, 256, 10):  # Adjust step for smoother transition
-				stripC.setBrightness(brightness)
-				set_color(stripC, Color(255, 255, 0))
-				time.sleep(0.05)
-
-			# Gradually decrease brightness
-			for brightness in range(255, -1, -10):
-				stripC.setBrightness(brightness)
-				set_color(stripC, Color(255, 255, 0))
-				time.sleep(0.05)
-
-	stripP.setBrightness(255)  # Reset brightness
-	stripC.setBrightness(255)
-	stripV.setBrightness(255)
+	stripP.setBrightness(20)  # Reset brightness
+	stripC.setBrightness(20)
+	stripV.setBrightness(20)
 	print(f"{section} light pulse.")
 
 	
 def light_B():
-	# make carbs brown
-	set_color(stripC, Color(139, 69, 19))
+	# make carbs red
+	set_color(stripC, Color(0, 255, 0))
 	print("carb brown")
 
 
