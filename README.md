@@ -88,6 +88,8 @@ cd Desktop/pyCode
 python3 main.py
 ```
 
+- When the code starts running give it about 10 seconds, plate the meal, and then click the button. The interact with the plate :)
+
 
 ## Technical Debt (TODO)
 - Upgrade post-pilot workflow
