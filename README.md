@@ -82,7 +82,7 @@ source myenv/bin/activate
 ``` shell
 cd Desktop/pyCode
 ```
-- Make sure the api-key is in the folder and your audio files are at the correct path 
+- Make sure the api-key is in the folder and your audio files are at the correct path and **be mindful of the addresses for all files in the main code**
 - run the code using:
 ``` shell
 python3 main.py
@@ -90,6 +90,5 @@ python3 main.py
 
 
 ## Technical Debt (TODO)
-- Upgrade pilot workflow
+- Upgrade post-pilot workflow
 - Configure database for better security or more intricate structure
-- Add correct addresses and API keys to the main
