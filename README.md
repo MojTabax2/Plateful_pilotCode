@@ -7,10 +7,11 @@ Python code for interactive plate This is a pilot version of the code and the wo
   - If vegetable is eaten positive feedback of audio is played 
   - Else the vegetable section light will blink and encouraging audio is played 
 - Next protein section is activated with similar workflow (2min into the meal)
-- If carbs are consumed first in the meal the light will turn brown
+- If carbs are consumed first in the meal the light will turn red
 - The carb section is activated after 4 min
 - Every 3 min plate is assessed for change and positive or encouraging feedback is played 
 - If less than 40% of a section is left then the section will be deactivated
+- When all sections are deactivated the program ends
 
 # Setup guide
 if the device is already set-up go to [How to run the code](https://github.com/MojTabax2/Plateful_pilotCode/blob/main/README.md#how-to-run-the-code)
