@@ -1,15 +1,15 @@
 # Plateful_pilotCode
-Python code for interactive plate
-This is a pilot version of the code and the workflow is as follows:
+Python code for interactive plate This is a pilot version of the code and the workflow is as follows:
+
 - Push of a button indicates start of a meal after the meal has been plated
 - Initial weight (food data) is recorded
-- Vegtable section is activated
-  - If vegtable is eaten positive feedback of audio is played
-  - Else the vegtable section light will blink and encoraging audio is played
+- Vegetable section is activated 
+  - If vegetable is eaten positive feedback of audio is played 
+  - Else the vegetable section light will blink and encouraging audio is played 
 - Next protein section is activated with similar workflow (2min into the meal)
 - If carbs are consumed first in the meal the light will turn brown
 - The carb section is activated after 4 min
-- Every 3 min plate is assessed for change and positive or encoraging feedback is played
+- Every 3 min plate is assessed for change and positive or encouraging feedback is played 
 - If less than 40% of a section is left then the section will be deactivated
 
 # Setup guide
